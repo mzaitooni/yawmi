@@ -372,3 +372,23 @@ html{height:100%;background:var(--bg)}*{box-sizing:border-box}body{margin:0;colo
 .json-transfer-area{width:100%;max-width:100%;min-height:190px;resize:vertical;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font-size:12px;line-height:1.65;text-align:left;direction:ltr;font-family:ui-monospace,Menlo,monospace;box-sizing:border-box}
 .neck-analysis .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:360px){.neck-analysis .metric{padding:9px}}
+
+/* v1.9.6: four compact actions per row on iPhone; eight buttons = two rows. */
+.quick-grid-home{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.quick-grid-home .quick-btn{min-height:68px;padding:7px 2px;border-radius:12px;min-width:0}
+.quick-grid-home .quick-btn .q-ic{font-size:22px}
+.quick-grid-home .quick-btn span:last-child{font-size:11px;line-height:1.3;text-align:center;white-space:nowrap}
+.iqos-today{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:9px;padding:8px 10px;background:var(--surface2);border-radius:11px;font-size:11px}
+.iqos-today strong{font-weight:650;color:var(--ink)}.iqos-today span{color:var(--muted)}
+.med-overlap{background:#8396a4}.med-text-overlap{color:var(--muted)}
+.med-dose-entry b small{display:block;font-weight:400;font-size:10px;color:var(--muted);margin-top:3px}
+.iqos-analysis>summary{cursor:pointer;font-size:15px;font-weight:650;list-style:revert;line-height:1.8}
+.iqos-analysis .iqos-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:12px 0}
+.iqos-analysis .iqos-metrics>div{padding:9px 5px;background:var(--surface2);border-radius:10px;text-align:center}
+.iqos-analysis .iqos-metrics span{font-size:10px;color:var(--muted);display:block}
+.iqos-analysis .iqos-metrics b{font-size:19px;font-weight:700;display:block}
+.iqos-table-wrap{overflow-x:auto;max-width:100%;margin:12px 0}
+.iqos-table{border-collapse:collapse;min-width:490px;width:100%;font-size:11px}
+.iqos-table th,.iqos-table td{border:1px solid var(--line);padding:8px 5px;text-align:center}
+.iqos-table th{background:var(--surface2);font-weight:600}
+@media(max-width:360px){.quick-grid-home{gap:4px}.quick-grid-home .quick-btn{padding:7px 1px;min-height:64px}.quick-grid-home .quick-btn span:last-child{font-size:10px}.iqos-today{font-size:10px}}
