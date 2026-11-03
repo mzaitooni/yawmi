@@ -4,6 +4,13 @@ function db(){ if(dbPromise)return dbPromise;dbPromise=new Promise((resolve,reje
 function transact(store,method,arg){return db().then(d=>new Promise((resolve,reject)=>{let tx=d.transaction(store,'readwrite');let q=tx.objectStore(store)[method](arg);q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error)}))}
 export const getAll=async()=>{const d=await db();return new Promise((resolve,reject)=>{let q=d.transaction('records','readonly').objectStore('records').getAll();q.onsuccess=()=>resolve(q.result||[]);q.onerror=()=>reject(q.error)})};
 export const put=(x)=>transact('records','put',x);export const remove=(id)=>transact('records','delete',id);
+// Save multi-selected medicines atomically: either all doses are stored, or none.
+export async function putMany(records){const d=await db();return new Promise((resolve,reject)=>{
+ const tx=d.transaction('records','readwrite'),table=tx.objectStore('records');
+ for(const r of records)table.put(r);
+ tx.oncomplete=()=>resolve(records.length);tx.onerror=()=>reject(tx.error||new Error('خطأ في التخزين'));tx.onabort=()=>reject(tx.error||new Error('تم إلغاء حفظ الأدوية'));
+})}
+
 export const getMeta=async(key,def=null)=>{const d=await db();return new Promise((resolve,reject)=>{const q=d.transaction('meta','readonly').objectStore('meta').get(key);q.onsuccess=()=>resolve(q.result?.value??def);q.onerror=()=>reject(q.error)})};
 export const setMeta=(key,value)=>transact('meta','put',{key,value});
 export async function replaceAll(records,meta){const d=await db();return new Promise((resolve,reject)=>{const tx=d.transaction(['records','meta'],'readwrite');tx.objectStore('records').clear();tx.objectStore('meta').clear();for(const r of records)tx.objectStore('records').put(r);for(const [key,value]of Object.entries(meta||{}))tx.objectStore('meta').put({key,value});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
